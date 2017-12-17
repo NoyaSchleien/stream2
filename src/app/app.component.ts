@@ -25,8 +25,7 @@ this.mediaSource=new MediaSource();
       this.checked = true;
       this._appService.getStream()
       .subscribe(stream => {
-        var blob = new Blob([stream.blob()],{type:'application/octet-stream'})
-        this.stream = blob;
+        this.stream = new Blob([stream.blob],{type:'application/octet-stream'})
         console.log(this.stream);
         try {
         // this.videoSource = this.myVideo['nativeElement'].addSourceBuffer('Uint8Array');
