@@ -17,7 +17,10 @@ export class AppService {
   constructor(private _http: HttpClient) { }
 
   getStream(): any{
-    return this._http.get(this._url,{headers:new HttpHeaders().set('accept','Byte[]')})
+    return this._http.get(this._url,{
+      headers:new HttpHeaders().set('accept','Byte[]'),
+      responseType: "blob"
+    })
     .do(data=> this._stream = data)
     .catch(this.handleError);
   }

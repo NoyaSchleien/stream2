@@ -18,14 +18,15 @@ export class AppComponent {
   constructor(private _appService: AppService) { }
   ngOnInit(){
 this.mediaSource=new MediaSource();
-this.videoSource = this.mediaSource.addSourceBuffer('application/octet-stream');
+// this.videoSource = this.mediaSource.addSourceBuffer('application/octet-stream');
   }
   onChange(e) {
     if (e.target.checked) {
       this.checked = true;
       this._appService.getStream()
       .subscribe(stream => {
-        this.stream = stream;
+        var blob = new Blob([stream.blob()],{type:'application/octet-stream'})
+        this.stream = blob;
         console.log(this.stream);
         try {
         // this.videoSource = this.myVideo['nativeElement'].addSourceBuffer('Uint8Array');
