@@ -18,18 +18,31 @@ export class AppComponent {
   constructor(private _appService: AppService) { }
   ngOnInit(){
 this.mediaSource=new MediaSource();
-// this.videoSource = this.mediaSource.addSourceBuffer('application/octet-stream');
+this.mediaSource.addEventListener('sourceopen', function (e) {
+  try {
+      this.videoSource = this.mediaSource.addSourceBuffer('application/octet-stream');
   }
-  onChange(e) {
-    if (e.target.checked) {
-      this.checked = true;
-      this._appService.getStream()
-      .subscribe(stream => {
-        this.stream = new Blob([stream.blob],{type:'application/octet-stream'})
-        console.log(this.stream);
-        try {
+      catch (e) {
+        console.log('Exception calling addSourceBuffer for video', e);
+        return;
+    }
+}, false);
+// this.videoSource=this.myVideo['nativeElement'].addSourceBuffer;
+// // this.videoSource = this.mediaSource.addSourceBuffer('application/octet-stream');
+}
+onChange(e) {
+  if (e.target.checked) {
+    this.checked = true;
+    this._appService.getStream()
+    .subscribe(stream => {
+      this.stream = new Blob([stream.blob],{type:'application/octet-stream'});
+      console.log(this.stream);
+      try{
+      this.videoSource.appendBuffer(new Uint8Array(this.stream));
+        // this.videoSource= this.mediaSource.addSourceBuffer(new Uint8Array());       
+          // this.videoSource=this.stream;
         // this.videoSource = this.myVideo['nativeElement'].addSourceBuffer('Uint8Array');
-          this.videoSource.appendBuffer(new Uint8Array(this.stream));
+          // this.videoSource.appendBuffer(new Uint8Array(this.stream));
           this.myVideo['nativeElement'].play();
       } catch (e) {
           console.log('Exception while appending', e);

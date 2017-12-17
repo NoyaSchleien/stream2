@@ -18,7 +18,7 @@ export class AppService {
 
   getStream(): any{
     return this._http.get(this._url,{
-      headers:new HttpHeaders().set('accept','Byte[]'),
+      headers:new HttpHeaders().set('accept','blob'),
       responseType: "blob"
     })
     .do(data=> this._stream = data)
